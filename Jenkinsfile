@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = "YOUR_DOCKERHUB_USERNAME/cca2-task-tracker"
+        IMAGE_NAME = "abhinavv11/cca2-task-tracker"
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
     stages {
