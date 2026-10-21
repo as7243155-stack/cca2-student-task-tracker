@@ -1,13 +1,19 @@
+
 pipeline {
     agent any
+
     environment {
         IMAGE_NAME = "abhinavv11/cca2-task-tracker"
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
+
     stages {
         stage('Checkout') {
-            steps { checkout scm }
+            steps {
+                checkout scm
+            }
         }
+
         stage('Build and Test') {
             steps {
                 sh '''
@@ -19,13 +25,20 @@ pipeline {
                 '''
             }
         }
+
         stage('Docker Build') {
-            steps { sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG -t $IMAGE_NAME:latest .' }
+            steps {
+                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG -t $IMAGE_NAME:latest .'
+            }
         }
+
         stage('Push Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
                     sh '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push "$IMAGE_NAME:$IMAGE_TAG"
@@ -35,5 +48,11 @@ pipeline {
                 }
             }
         }
-    post { always { echo 'CCA 2 pipeline finished. Check the stage results above.' } }
+    }
+
+    post {
+        always {
+            echo 'CCA 2 pipeline finished. Check the stage results above.'
+        }
+    }
 }
