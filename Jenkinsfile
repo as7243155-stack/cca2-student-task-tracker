@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "abhinavv11/cca2-task-tracker"
+        IMAGE_NAME = "abhinavvv11/cca2-task-tracker"
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
