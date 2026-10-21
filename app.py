@@ -18,7 +18,7 @@ def home():
         {"title":"Prepare viva notes","description":"Understand each pipeline stage.","status":"Pending"},
         {"title":"Push a new release","description":"Change the release label and run Jenkins again.","status":"Completed"},
     ]
-    return render_template_string(PAGE, tasks=tasks, release="v1")
+    return render_template_string(PAGE, tasks=tasks, release="v2")
 @app.get("/health")
 def health():
     return {"status":"ok"}, 200
