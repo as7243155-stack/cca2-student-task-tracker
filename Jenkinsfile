@@ -35,20 +35,5 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Minikube') {
-            steps {
-                sh '''
-                    sed "s|IMAGE_PLACEHOLDER|$IMAGE_NAME:$IMAGE_TAG|g" k8s/deployment.yaml | kubectl apply -f -
-                    kubectl apply -f k8s/service.yaml
-                    kubectl rollout status deployment/task-tracker --timeout=180s
-                '''
-            }
-        }
-        stage('Verify') {
-            steps {
-                sh 'kubectl get pods && kubectl get deployment task-tracker && kubectl get service task-tracker'
-            }
-        }
-    }
     post { always { echo 'CCA 2 pipeline finished. Check the stage results above.' } }
 }
